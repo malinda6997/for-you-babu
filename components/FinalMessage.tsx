@@ -16,21 +16,17 @@ export default function FinalMessage() {
 
       if (!section) return;
 
+      /* =========================================
+         CONTENT REVEAL
+      ========================================== */
+
       const elements =
         gsap.utils.toArray<HTMLElement>(".final-reveal");
-
-      /* =========================================
-         INITIAL STATES
-      ========================================== */
 
       gsap.set(elements, {
         opacity: 0,
         y: 35,
       });
-
-      /* =========================================
-         SECTION REVEAL
-      ========================================== */
 
       gsap.to(elements, {
         opacity: 1,
@@ -66,25 +62,22 @@ export default function FinalMessage() {
       });
 
       /* =========================================
-         BUTTON BREATHING
+         CTA GRADIENT ANIMATION
       ========================================== */
 
-      gsap.to(".call-button", {
-        scale: 1.025,
-        duration: 1.6,
+      gsap.to(".gradient-cta", {
+        backgroundPosition: "200% 50%",
+        duration: 5,
         repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-        delay: 1,
+        ease: "linear",
       });
 
       /* =========================================
-         BUTTON GLOW
+         CTA BREATHING
       ========================================== */
 
-      gsap.to(".call-glow", {
-        opacity: 0.65,
-        scale: 1.08,
+      gsap.to(".gradient-cta", {
+        scale: 1.025,
         duration: 1.8,
         repeat: -1,
         yoyo: true,
@@ -92,7 +85,20 @@ export default function FinalMessage() {
       });
 
       /* =========================================
-         FINAL HEART PULSE
+         CTA GLOW
+      ========================================== */
+
+      gsap.to(".cta-glow", {
+        opacity: 0.7,
+        scale: 1.08,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+
+      /* =========================================
+         FINAL HEART
       ========================================== */
 
       gsap.to(".final-heart", {
@@ -101,7 +107,6 @@ export default function FinalMessage() {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
-        delay: 1.5,
       });
     },
     {
@@ -125,9 +130,7 @@ export default function FinalMessage() {
         py-24
       "
     >
-      {/* =========================================
-          SOFT BACKGROUND GLOW
-      ========================================== */}
+      {/* Background glow */}
 
       <div
         className="
@@ -149,9 +152,7 @@ export default function FinalMessage() {
         }}
       />
 
-      {/* =========================================
-          FLOATING HEARTS
-      ========================================== */}
+      {/* Floating hearts */}
 
       <span
         className="
@@ -209,9 +210,7 @@ export default function FinalMessage() {
         ♡
       </span>
 
-      {/* =========================================
-          MAIN CONTENT
-      ========================================== */}
+      {/* Main content */}
 
       <div
         className="
@@ -223,9 +222,7 @@ export default function FinalMessage() {
           text-center
         "
       >
-        {/* =========================================
-            INTRO
-        ========================================== */}
+        {/* Intro */}
 
         <p
           className="
@@ -240,52 +237,49 @@ export default function FinalMessage() {
           One last thing...
         </p>
 
-        {/* =========================================
-            MAIN HEADING
-        ========================================== */}
+        {/* Main heading */}
 
         <h2
           className="
             final-reveal
             mt-7
             font-display
-            text-[3rem]
+            text-[2.75rem]
             font-medium
-            leading-[1]
+            leading-[1.05]
             tracking-[-0.04em]
             text-[#302326]
             sm:text-5xl
           "
         >
-          Can I have
+          If you&apos;re not
           <br />
-          one last call?
+          upset with me anymore...
         </h2>
 
-        {/* =========================================
-            MESSAGE
-        ========================================== */}
+        {/* Romantic message */}
 
         <p
           className="
             final-reveal
             mx-auto
             mt-7
-            max-w-[420px]
+            max-w-[430px]
             text-[15px]
             leading-8
             text-[#71676a]
+            sm:text-base
           "
         >
-          I don&apos;t want to leave everything here with
-          just a website and a few words.
+          I don&apos;t want to ask for anything more.
           <br />
           <br />
-          If you can, give me just one minute to talk to you.
+          I just wish I could have one quiet minute
+          to hear your voice and talk to you.
         </p>
 
         {/* =========================================
-            CALL BUTTON
+            ROMANTIC CALL CTA
         ========================================== */}
 
         <div
@@ -297,171 +291,109 @@ export default function FinalMessage() {
             justify-center
           "
         >
-          {/* Glow behind button */}
+          {/* Soft glow */}
 
           <div
             className="
-              call-glow
+              cta-glow
               pointer-events-none
               absolute
-              inset-0
-              mx-auto
-              w-[230px]
+              top-1/2
+              h-24
+              w-[290px]
+              -translate-y-1/2
               rounded-full
-              bg-[#a93652]/25
-              blur-2xl
+              bg-[#d66b82]/25
+              blur-3xl
             "
           />
 
-          {/* 
-            IMPORTANT:
-            Exact number:
-            0740584022
-          */}
+          {/* Call button */}
 
           <a
-            href="tel:0740584022"
-            aria-label="Call 0740584022"
+            href="tel:+94740584022"
+            aria-label="Call 074 058 4022"
             className="
-              call-button
+              gradient-cta
               group
               relative
-              z-30
-              inline-flex
+              z-20
+              flex
+              w-full
+              max-w-[350px]
               touch-manipulation
-              cursor-pointer
+              items-center
+              justify-center
               overflow-hidden
               rounded-full
-              p-[1.5px]
-              select-none
-              shadow-[0_12px_40px_rgba(143,48,71,0.25)]
+              px-8
+              py-[19px]
+              text-center
+              text-white
+              shadow-[0_18px_50px_rgba(154,65,88,0.25)]
               transition-all
               duration-300
-              hover:scale-105
-              hover:shadow-[0_18px_55px_rgba(143,48,71,0.38)]
               active:scale-95
             "
+            style={{
+              background:
+                "linear-gradient(110deg,#7b2940,#b84d68,#e28a9b,#a63755,#7b2940)",
+              backgroundSize: "300% 300%",
+            }}
           >
-            {/* Animated gradient border */}
-
-            <span
-              className="
-                pointer-events-none
-                absolute
-                inset-[-180%]
-                animate-[spin_4s_linear_infinite]
-                bg-[conic-gradient(from_0deg,#76263a,#e98c9e,#fff1f3,#a93652,#76263a)]
-              "
-            />
-
-            {/* Button body */}
-
-            <span
-              className="
-                relative
-                z-10
-                flex
-                items-center
-                gap-3
-                rounded-full
-                bg-[#8f3047]
-                px-8
-                py-4
-                text-sm
-                font-medium
-                tracking-wide
-                text-white
-                transition-colors
-                duration-300
-                group-hover:bg-[#9d3850]
-              "
-            >
-              {/* Heart */}
-
-              <span
-                className="
-                  flex
-                  h-7
-                  w-7
-                  shrink-0
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-white/15
-                  text-base
-                  transition-transform
-                  duration-300
-                  group-hover:rotate-12
-                  group-hover:scale-110
-                "
-              >
-                ♡
-              </span>
-
-              {/* Button text */}
-
-              <span>
-                Call me for one minute
-              </span>
-
-              {/* Arrow */}
-
-              <span
-                className="
-                  text-base
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
-                "
-              >
-                →
-              </span>
-            </span>
-
-            {/* Shine */}
+            {/* Moving shine */}
 
             <span
               className="
                 pointer-events-none
                 absolute
                 inset-y-0
-                -left-[100%]
-                z-20
-                w-[55%]
-                skew-x-[-20deg]
-                bg-gradient-to-r
-                from-transparent
-                via-white/30
-                to-transparent
+                -left-[70%]
+                w-[45%]
+                rotate-[18deg]
+                bg-white/20
+                blur-sm
                 transition-all
                 duration-700
-                group-hover:left-[150%]
+                group-hover:left-[130%]
               "
             />
+
+            {/* Button text */}
+
+            <span
+              className="
+                relative
+                z-10
+                font-display
+                text-[1.15rem]
+                font-medium
+                tracking-[-0.01em]
+                sm:text-[1.3rem]
+              "
+            >
+              Could I Have One Minute?
+            </span>
           </a>
         </div>
 
-        {/* =========================================
-            SMALL HINT
-        ========================================== */}
+        {/* Small supporting text */}
 
         <p
           className="
             final-reveal
-            mt-4
+            mt-5
             text-[11px]
             tracking-wide
             text-[#a09598]
           "
         >
-          just one minute... 🤍
+          Only if you&apos;re ready to hear me... 🤍
         </p>
 
-        {/* =========================================
-            FINAL ROMANTIC MESSAGE
-        ========================================== */}
+        {/* Final message */}
 
-        <div className="final-reveal mt-14">
+        <div className="final-reveal mt-16">
           <p
             className="
               font-hand
@@ -486,16 +418,14 @@ export default function FinalMessage() {
           >
             And I really don&apos;t want
             <br />
-            to miss you like this.
+            to lose you.
           </p>
-
-          {/* Final heart */}
 
           <div
             className="
               final-heart
               mt-8
-              text-[27px]
+              text-[28px]
               text-[#b65368]
             "
           >
@@ -504,9 +434,7 @@ export default function FinalMessage() {
         </div>
       </div>
 
-      {/* =========================================
-          FOOTER
-      ========================================== */}
+      {/* Footer */}
 
       <div
         className="
