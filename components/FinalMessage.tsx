@@ -19,14 +19,18 @@ export default function FinalMessage() {
       const elements =
         gsap.utils.toArray<HTMLElement>(".final-reveal");
 
-      /* Initial state */
+      /* =========================================
+         INITIAL STATES
+      ========================================== */
 
       gsap.set(elements, {
         opacity: 0,
         y: 35,
       });
 
-      /* Main reveal */
+      /* =========================================
+         SECTION REVEAL
+      ========================================== */
 
       gsap.to(elements, {
         opacity: 1,
@@ -41,7 +45,9 @@ export default function FinalMessage() {
         },
       });
 
-      /* Floating hearts */
+      /* =========================================
+         FLOATING HEARTS
+      ========================================== */
 
       const hearts =
         gsap.utils.toArray<HTMLElement>(".floating-heart");
@@ -59,7 +65,9 @@ export default function FinalMessage() {
         });
       });
 
-      /* Button breathing animation */
+      /* =========================================
+         BUTTON BREATHING
+      ========================================== */
 
       gsap.to(".call-button", {
         scale: 1.025,
@@ -70,7 +78,9 @@ export default function FinalMessage() {
         delay: 1,
       });
 
-      /* Button glow */
+      /* =========================================
+         BUTTON GLOW
+      ========================================== */
 
       gsap.to(".call-glow", {
         opacity: 0.65,
@@ -81,7 +91,9 @@ export default function FinalMessage() {
         ease: "sine.inOut",
       });
 
-      /* Heart pulse */
+      /* =========================================
+         FINAL HEART PULSE
+      ========================================== */
 
       gsap.to(".final-heart", {
         scale: 1.12,
@@ -114,7 +126,7 @@ export default function FinalMessage() {
       "
     >
       {/* =========================================
-          BACKGROUND GLOW
+          SOFT BACKGROUND GLOW
       ========================================== */}
 
       <div
@@ -211,7 +223,9 @@ export default function FinalMessage() {
           text-center
         "
       >
-        {/* Intro */}
+        {/* =========================================
+            INTRO
+        ========================================== */}
 
         <p
           className="
@@ -226,7 +240,9 @@ export default function FinalMessage() {
           One last thing...
         </p>
 
-        {/* Main heading */}
+        {/* =========================================
+            MAIN HEADING
+        ========================================== */}
 
         <h2
           className="
@@ -246,7 +262,9 @@ export default function FinalMessage() {
           one last call?
         </h2>
 
-        {/* Message */}
+        {/* =========================================
+            MESSAGE
+        ========================================== */}
 
         <p
           className="
@@ -270,8 +288,16 @@ export default function FinalMessage() {
             CALL BUTTON
         ========================================== */}
 
-        <div className="final-reveal relative mt-10 flex justify-center">
-          {/* Soft glow behind button */}
+        <div
+          className="
+            final-reveal
+            relative
+            mt-10
+            flex
+            justify-center
+          "
+        >
+          {/* Glow behind button */}
 
           <div
             className="
@@ -288,22 +314,26 @@ export default function FinalMessage() {
           />
 
           {/* 
-            tel: link
-            +94 74 058 4022
-            = 0740584022 in Sri Lanka
+            IMPORTANT:
+            Exact number:
+            0740584022
           */}
 
           <a
-            href="tel:+94740584022"
-            aria-label="Call me for one minute"
+            href="tel:0740584022"
+            aria-label="Call 0740584022"
             className="
               call-button
               group
               relative
+              z-30
               inline-flex
+              touch-manipulation
+              cursor-pointer
               overflow-hidden
               rounded-full
               p-[1.5px]
+              select-none
               shadow-[0_12px_40px_rgba(143,48,71,0.25)]
               transition-all
               duration-300
@@ -316,6 +346,7 @@ export default function FinalMessage() {
 
             <span
               className="
+                pointer-events-none
                 absolute
                 inset-[-180%]
                 animate-[spin_4s_linear_infinite]
@@ -328,6 +359,7 @@ export default function FinalMessage() {
             <span
               className="
                 relative
+                z-10
                 flex
                 items-center
                 gap-3
@@ -339,12 +371,12 @@ export default function FinalMessage() {
                 font-medium
                 tracking-wide
                 text-white
-                transition-all
+                transition-colors
                 duration-300
                 group-hover:bg-[#9d3850]
               "
             >
-              {/* Heart icon */}
+              {/* Heart */}
 
               <span
                 className="
@@ -366,7 +398,7 @@ export default function FinalMessage() {
                 ♡
               </span>
 
-              {/* Text */}
+              {/* Button text */}
 
               <span>
                 Call me for one minute
@@ -386,7 +418,7 @@ export default function FinalMessage() {
               </span>
             </span>
 
-            {/* Shine effect */}
+            {/* Shine */}
 
             <span
               className="
@@ -394,6 +426,7 @@ export default function FinalMessage() {
                 absolute
                 inset-y-0
                 -left-[100%]
+                z-20
                 w-[55%]
                 skew-x-[-20deg]
                 bg-gradient-to-r
@@ -408,7 +441,9 @@ export default function FinalMessage() {
           </a>
         </div>
 
-        {/* Small hint */}
+        {/* =========================================
+            SMALL HINT
+        ========================================== */}
 
         <p
           className="
@@ -423,7 +458,7 @@ export default function FinalMessage() {
         </p>
 
         {/* =========================================
-            FINAL MESSAGE
+            FINAL ROMANTIC MESSAGE
         ========================================== */}
 
         <div className="final-reveal mt-14">
@@ -454,7 +489,7 @@ export default function FinalMessage() {
             to miss you like this.
           </p>
 
-          {/* Heart */}
+          {/* Final heart */}
 
           <div
             className="
