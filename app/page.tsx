@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import RomanticNote from "@/components/RomanticNote";
 import Memories from "@/components/Memories";
 import Apology from "@/components/Apology";
-import Letter from "@/components/Letter";
 import FinalMessage from "@/components/FinalMessage";
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
       <RomanticNote />
       <Memories />
       <Apology />
-      <Letter />
       <FinalMessage />
     </main>
   );

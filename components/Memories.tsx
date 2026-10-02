@@ -15,188 +15,322 @@ export default function Memories() {
 
   useGSAP(
     () => {
-      const items = gsap.utils.toArray<HTMLElement>(".memory-item");
+      const section = sectionRef.current;
 
-      items.forEach((item) => {
-        const image = item.querySelector(".memory-image");
-        const imageWrap = item.querySelector(".memory-image-wrap");
-        const text = item.querySelector(".memory-text");
-        const number = item.querySelector(".memory-number");
+      if (!section || memories.length === 0) return;
 
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: item,
-            start: "top 78%",
-            end: "top 35%",
-            toggleActions: "play none none reverse",
-          },
+      const slides =
+        gsap.utils.toArray<HTMLElement>(".memory-slide");
+
+      const images =
+        gsap.utils.toArray<HTMLElement>(".memory-slide-image");
+
+      const overlays =
+        gsap.utils.toArray<HTMLElement>(".memory-slide-overlay");
+
+      const contents =
+        gsap.utils.toArray<HTMLElement>(".memory-slide-content");
+
+      /* ===============================
+         INITIAL STATES
+      =============================== */
+
+      slides.forEach((slide, index) => {
+        gsap.set(slide, {
+          zIndex: memories.length - index,
         });
 
-        timeline
-          .fromTo(
-            imageWrap,
-            {
-              opacity: 0,
-              y: 45,
-              scale: 0.96,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              scale: 1,
-              duration: 1,
-              ease: "power3.out",
-            }
-          )
-          .fromTo(
-            image,
-            {
-              scale: 1.08,
-            },
-            {
-              scale: 1,
-              duration: 1.3,
-              ease: "power2.out",
-            },
-            "<"
-          )
-          .fromTo(
-            number,
-            {
-              opacity: 0,
-              y: 15,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.55,
-              ease: "power2.out",
-            },
-            "-=0.55"
-          )
-          .fromTo(
-            text,
-            {
-              opacity: 0,
-              y: 25,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: "power3.out",
-            },
-            "-=0.35"
-          );
+        gsap.set(images[index], {
+          scale: index === 0 ? 1 : 1.14,
+          opacity: index === 0 ? 1 : 0,
+        });
 
+        gsap.set(overlays[index], {
+          opacity: index === 0 ? 1 : 0,
+        });
+
+        gsap.set(contents[index], {
+          opacity: index === 0 ? 1 : 0,
+          y: index === 0 ? 0 : 40,
+        });
+      });
+
+      /* ===============================
+         MAIN SCROLL TIMELINE
+      =============================== */
+
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+
+          // One screen of scroll per transition
+          end: `+=${(memories.length - 1) * 100}%`,
+
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+        },
+      });
+
+      memories.forEach((_, index) => {
+        if (index === 0) return;
+
+        const previousImage = images[index - 1];
+        const currentImage = images[index];
+
+        const previousOverlay = overlays[index - 1];
+        const currentOverlay = overlays[index];
+
+        const previousContent = contents[index - 1];
+        const currentContent = contents[index];
+
+        /* Previous image leaves */
+
+        timeline.to(
+          previousImage,
+          {
+            scale: 1.08,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.inOut",
+          },
+          index - 1
+        );
+
+        /* Previous overlay fades */
+
+        timeline.to(
+          previousOverlay,
+          {
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.inOut",
+          },
+          index - 1
+        );
+
+        /* Previous text leaves */
+
+        timeline.to(
+          previousContent,
+          {
+            opacity: 0,
+            y: -35,
+            duration: 0.65,
+            ease: "power2.inOut",
+          },
+          index - 1
+        );
+
+        /* New image enters */
+
+        timeline.fromTo(
+          currentImage,
+          {
+            scale: 1.14,
+            opacity: 0,
+          },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out",
+          },
+          index - 0.55
+        );
+
+        /* New overlay */
+
+        timeline.fromTo(
+          currentOverlay,
+          {
+            opacity: 0,
+          },
+          {
+            opacity: 1,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          index - 0.55
+        );
+
+        /* New text */
+
+        timeline.fromTo(
+          currentContent,
+          {
+            opacity: 0,
+            y: 40,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.75,
+            ease: "power3.out",
+          },
+          index - 0.25
+        );
+      });
+
+      /* ===============================
+         IMAGE PARALLAX
+      =============================== */
+
+      images.forEach((image, index) => {
         gsap.to(image, {
-          yPercent: -4,
+          scale: 1.05,
+          xPercent: index % 2 === 0 ? -1 : 1,
           ease: "none",
+
           scrollTrigger: {
-            trigger: item,
-            start: "top bottom",
-            end: "bottom top",
+            trigger: section,
+            start: `${index * 100}% top`,
+            end: `${(index + 1) * 100}% top`,
             scrub: true,
           },
         });
       });
 
-      gsap.fromTo(
-        ".memories-heading",
-        {
-          opacity: 0,
-          y: 30,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".memories-heading",
-            start: "top 80%",
-            once: true,
-          },
-        }
-      );
+      /* Refresh after everything is created */
+
+      ScrollTrigger.refresh();
     },
     {
       scope: sectionRef,
-    }
-  );
+  });
 
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#f8f5f0] px-5 py-28 sm:px-8 sm:py-36"
+      className="relative h-[100svh] w-full overflow-hidden bg-[#12070a]"
     >
-      {/* Section heading */}
-      <div className="memories-heading mx-auto mb-20 max-w-2xl text-center sm:mb-28">
-        <p className="font-hand text-3xl text-[#a64b5d] sm:text-4xl">
-          Our little moments
-        </p>
+      {memories.map((memory, index) => (
+        <article
+          key={memory.id}
+          className="
+            memory-slide
+            absolute
+            inset-0
+            h-full
+            w-full
+            overflow-hidden
+          "
+        >
+          {/* Image */}
 
-        <h2 className="mt-4 font-display text-[2.7rem] font-medium leading-[1] tracking-[-0.03em] text-[#2d2724] sm:text-5xl md:text-6xl">
-          The memories I never want to forget.
-        </h2>
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src={memory.image}
+              alt={`Memory ${memory.id}`}
+              fill
+              priority={index === 0}
+              sizes="100vw"
+              className="
+                memory-slide-image
+                object-cover
+                object-center
+                will-change-transform
+              "
+            />
+          </div>
 
-        <p className="mx-auto mt-6 max-w-md text-sm leading-7 text-[#766d68] sm:text-base">
-          Every photo holds a little piece of us. Some moments were big, some
-          were completely ordinary, but every one of them became special to me.
-        </p>
-      </div>
+          {/* Dark + red gradient */}
 
-      {/* Memories */}
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-28 sm:gap-36 md:gap-44">
-        {memories.map((memory, index) => {
-          const isEven = index % 2 === 1;
+          <div
+            className="
+              memory-slide-overlay
+              pointer-events-none
+              absolute
+              inset-0
+              z-10
+            "
+            style={{
+              background: `
+                linear-gradient(
+                  180deg,
+                  rgba(0,0,0,0.02) 0%,
+                  rgba(0,0,0,0.02) 30%,
+                  rgba(31,5,11,0.10) 48%,
+                  rgba(30,4,10,0.65) 76%,
+                  rgba(15,2,7,0.97) 100%
+                )
+              `,
+            }}
+          />
 
-          return (
-            <article
-              key={memory.id}
-              className="memory-item mx-auto w-full max-w-2xl"
-            >
-              {/* Image */}
-              <div
-                className={`memory-image-wrap relative mx-auto aspect-[4/5] w-full max-w-[390px] overflow-hidden rounded-[1.75rem] bg-[#ebe4dd] shadow-[0_25px_70px_rgba(70,45,40,0.11)] ${
-                  isEven ? "md:translate-x-8" : "md:-translate-x-8"
-                }`}
+          {/* Soft red glow */}
+
+          <div
+            className="
+              pointer-events-none
+              absolute
+              inset-x-0
+              bottom-0
+              z-[11]
+              h-[45%]
+            "
+            style={{
+              background:
+                "radial-gradient(ellipse at 50% 100%, rgba(156,20,48,0.25) 0%, rgba(80,6,24,0.12) 40%, transparent 72%)",
+            }}
+          />
+
+          {/* Memory text */}
+
+          <div
+            className="
+              memory-slide-content
+              absolute
+              inset-x-0
+              bottom-0
+              z-20
+              px-7
+              pb-14
+              text-center
+              sm:px-10
+              sm:pb-16
+            "
+          >
+            <div className="mx-auto max-w-xl">
+              <p
+                className="
+                  font-serif
+                  text-[15px]
+                  leading-7
+                  text-white
+                  drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]
+                  sm:text-base
+                  sm:leading-8
+                "
               >
-                <Image
-                  src={memory.image}
-                  alt={`Memory ${memory.id}`}
-                  fill
-                  sizes="(max-width: 768px) 90vw, 390px"
-                  className="memory-image object-cover"
-                />
+                {memory.text}
+              </p>
 
-                {/* Soft image overlay */}
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-white/5" />
+              <div className="mt-5 text-xl text-[#f0a8b5]">
+                ♡
               </div>
+            </div>
+          </div>
 
-              {/* Text */}
-              <div className="mx-auto mt-7 max-w-[390px] px-2 sm:mt-9">
-                <p className="memory-number font-hand text-xl text-[#b06c79]">
-                  {String(memory.id).padStart(2, "0")}
-                </p>
+          {/* Small label */}
 
-                <p className="memory-text mt-3 text-[15px] leading-7 text-[#665d58] sm:text-base sm:leading-8">
-                  {memory.text}
-                </p>
-              </div>
-            </article>
-          );
-        })}
-      </div>
-
-      {/* Bottom transition */}
-      <div className="mx-auto mt-32 flex max-w-2xl flex-col items-center text-center sm:mt-44">
-        <div className="h-16 w-px bg-gradient-to-b from-transparent via-[#c9a8ad] to-transparent" />
-
-        <p className="mt-8 font-hand text-2xl text-[#92787c] sm:text-3xl">
-          And there are still so many little moments I carry with me...
-        </p>
-      </div>
+          <div
+            className="
+              absolute
+              right-6
+              top-7
+              z-30
+              font-serif
+              text-[9px]
+              tracking-[0.3em]
+              text-white/50
+            "
+          >
+            MEMORY
+          </div>
+        </article>
+      ))}
     </section>
   );
 }
