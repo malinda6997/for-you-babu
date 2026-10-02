@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f5f0;
+  --foreground: #27221f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body,
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+/* Custom selection */
+::selection {
+  background: #d9aeb7;
+  color: #2d2527;
+}
+
+/* Minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f5f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c9a3aa;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ae7d87;
+}
+
+/* Firefox scrollbar */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #c9a3aa #f8f5f0;
+}
+
+/* Handwritten typography */
+.font-hand {
+  font-family: "Caveat", "Segoe Print", "Comic Sans MS", cursive;
+}
+
+/* Elegant display typography */
+.font-display {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+/* Prevent accidental horizontal overflow */
+img {
+  max-width: 100%;
+}
+
+/* Better mobile text rendering */
+@media (max-width: 640px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
